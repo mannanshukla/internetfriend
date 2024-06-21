@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from discord import Intents, Client, Message
 from responses import get_response
-from random import choice, randint
+import time
 
 load_dotenv()
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
@@ -31,20 +31,22 @@ async def on_ready() -> None:
 
 @client.event
 async def on_message(message: Message) -> None:
-	if message.author == client.user:
-		return
 
 	username: str = str(message.author)
 	user_message: str = message.content
-	channel: str = str(message.channel)
-	randomness = randint(1,10)
 
-	if randomness:	
-		await send_message(message, user_message)
-			
-	print(username)
-	print(user_message)
-	print(randomness)
+	if message.author == client.user:
+		with open('output.txt', 'a') as f:
+			f.write(f"{username} : {user_message}\n")
+			print(f"{username} : {user_message}")
+		return
+
+
+	with open('output.txt', 'a') as f:
+		f.write(f"{username} : {user_message}\n")
+		print(f"{username} : {user_message}")
+
+	await send_message(message, user_message)
 
 def main() -> None:
 	client.run(token=TOKEN)
