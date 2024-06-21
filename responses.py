@@ -10,8 +10,8 @@ def get_response(user_input: str) -> str:
 		return 'le beckre'
 	elif 'keker' in lowered:
 		return "ok sai"
-	elif 'hey llama' in lowered:
-		ai_response = ollama.chat(model='llama3', messages=[
+	elif lowered[0] == "!":
+		ai_response = ollama.chat(model='uncensored', messages=[
 		  {
 		    'role': 'user',
 		    'content': lowered,
